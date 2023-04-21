@@ -58,6 +58,7 @@ class Forecast
     geocodes = Google::Maps.geocode(address_input)
     throw 'Invalid address' if geocodes.empty?
     @zip_code = geocodes.first.components["postal_code"]&.first
+    
     @address_output = geocodes.first.address
     {
       longitude: geocodes.first.longitude,
@@ -72,13 +73,12 @@ class Forecast
       @cached_result = true
       Rails.cache.fetch("#{label}/#{@zip_code}", expires_in: 30.minutes) do
         # If we're here, there was a cache miss
-        # binding.pry
         @cached_result = false
-        block.call
+        yield
       end
     else
       @cached_result = false
-      block.call
+      yield
     end
   end
 end
