@@ -1,33 +1,43 @@
-<h1>Weather</h1>
+<div class="container" style='padding-top: 50px'>
+  <div class="container">
+    <h1>Weather</h1>
 
-<%= form_with url: "/", method: :get do |form| %>
-  <%= form.label :q, "Address:" %>
-  <%= form.text_field :q, required: true %>
-  <%= form.submit "Get weather" %>
-<% end %>
-
-<% if @forecast %>
-
-  <% if @forecast.cached_result %>
-    <p>This is a cached result</p>
-  <% end %>
-
-  <p><%= @forecast.address_output %></p>
-
-
-  <p>Current conditions</p>
-  <p><%= @forecast.current_conditions["weather"][0]["main"] %> <%= @forecast.current_conditions["main"]["temp"].to_i %>°F</p>
-
-  <p>Forecast</p>
-  <table>
-    <% @forecast.forecast["list"].each do |time_interval| %>
-    <tr>
-      <% interval_start = Time.zone.parse(time_interval["dt_txt"]) %>
-      <% interval_end = interval_start + 3.hours %>
-      <td><%= interval_start.strftime("%m/%d %l:%M%p") %> - <%= interval_end.strftime("%l:%M%p") %></td>
-      <td><%= time_interval["weather"][0]["main"] %></td>
-      <td><%= time_interval["main"]["temp_max"].to_i %> °F</td>
-    </tr>
+    <%= form_with url: "/", method: :get do |form| %>
+      <%= form.label :q, "Address:" %>
+      <%= form.text_field :q, required: true %>
+      <%= form.submit "Get weather" %>
     <% end %>
-  </table>
-<% end %>
+  </div>
+  <% if @forecast %>
+    <hr>
+    <div class="container">
+      <p><%= @forecast.address_output %></p>
+
+      <% if @forecast.cached_result %>
+        <div class="alert alert-light" role="alert">
+          <small>This is a cached result, may be delayed by 30 minutes.</small>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="container">
+      <h4>Current conditions</h4>
+      <p><%= @forecast.current_conditions["weather"][0]["main"] %> <%= @forecast.current_conditions["main"]["temp"].to_i %>°F</p>
+    </div>
+
+    <div class="container">
+      <h4>Forecast</h4>
+      <table class='table'>
+        <% @forecast.forecast["list"].each do |time_interval| %>
+        <tr>
+          <% interval_start = Time.zone.parse(time_interval["dt_txt"]) %>
+          <% interval_end = interval_start + 3.hours %>
+          <td><%= interval_start.strftime("%m/%d %l:%M%p") %> - <%= interval_end.strftime("%l:%M%p") %></td>
+          <td><%= time_interval["weather"][0]["main"] %></td>
+          <td><%= time_interval["main"]["temp_max"].to_i %>°F</td>
+        </tr>
+        <% end %>
+      </table>
+    <% end %>
+  </div>
+</div>

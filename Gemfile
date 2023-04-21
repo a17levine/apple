@@ -74,4 +74,5 @@ group :test do
   gem "mocha"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem "webmock"
 end
