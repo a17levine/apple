@@ -16,6 +16,10 @@ Caching is done in-memory. If this app will be used for real-world users, a Redi
 
 Secrets are managed using [Rails custom credentials API](https://edgeguides.rubyonrails.org/security.html#custom-credentials)
 
+## Testing
+
+To run the test suite run `bundle exec rails test`
+
 ## Getting started
 
 Ensure Ruby 3.2.2 and `bundler` is installed
